@@ -1,0 +1,29 @@
+/* 隐藏未注册的组件 */
+:not(:defined) {
+  visibility: hidden;
+}
+
+html body {
+    margin: 0;
+}
+
+input.file-input {
+    display: none;
+}
+
+div#container {
+    min-height: 100vh;
+    margin: 2em;
+}
+
+mdui-slider#controller-progress {
+    position: fixed;
+    bottom: calc(5rem - 1.25rem);
+    width: calc(100vw - 2rem - 1rem * 2);
+    padding: 0;
+    margin: 0 1rem;
+}
+
+div.app-bar-blank {
+    flex-grow: 1;
+}

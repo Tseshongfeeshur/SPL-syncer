@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 设置字符编码为 UTF-8 -->
+    <meta charset="UTF-8">
+    <!-- 确保在移动设备上自适应 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPL 歌词打轴工具</title>
+    <!-- 引入外部 CSS 文件 -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 主容器，包含所有内容 -->
+    <div class="container">
+        <!-- 页面标题 -->
+        <h1>SPL 歌词打轴工具</h1>
+
+        <!-- 输入区：音频和歌词文件上传 -->
+        <div class="input-section">
+            <h3>上传文件</h3>
+            <!-- 音频上传 -->
+            <div class="input-group">
+                <label for="audioInput">上传音乐文件（MP3 等格式）:</label>
+                <input type="file" id="audioInput" accept="audio/*">
+            </div>
+            <!-- 歌词上传 -->
+            <div class="input-group">
+                <label for="lrcInput">上传歌词文件（LRC 格式）:</label>
+                <input type="file" id="lrcInput" accept=".lrc">
+            </div>
+            <!-- 播放速度控制 -->
+            <div class="speed-control">
+                <label for="playbackSpeed">播放速度（0.1 - 3.0）:</label>
+                <input type="number" id="playbackSpeed" min="0.1" max="3" step="0.01" value="1.00">
+            </div>
+        </div>
+
+        <!-- 源 LRC 显示区（不可编辑） -->
+        <div class="source-lrc-section">
+            <h3>源 LRC</h3>
+            <textarea id="sourceLrc" readonly placeholder="源 LRC 将显示在此处"></textarea>
+        </div>
+
+        <!-- 歌词编辑区：显示分词后的歌词 -->
+        <div class="lyrics-section" id="lyricsSection"></div>
+
+        <!-- 输出区：显示生成的 SPL 歌词 -->
+        <div class="output-section">
+            <h3>生成的 SPL 歌词</h3>
+            <textarea id="outputLrc" readonly></textarea>
+            <button onclick="copyToClipboard()">复制到剪贴板</button>
+            <button onclick="downloadSpl()">下载 SPL 文件</button>
+        </div>
+
+        <!-- 浮动打轴按钮 -->
+        <button class="float-btn" id="tagBtn" onclick="tagCurrentWord()">标记时间戳 (空格键)</button>
+    </div>
+
+    <!-- 引入外部 JavaScript 文件 -->
+    <script src="script.js"></script>
+</body>
+</html>

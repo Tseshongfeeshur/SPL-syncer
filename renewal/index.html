@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPL 歌词同步工具</title>
+    <!-- 引入组件库 -->
+    <link rel="stylesheet" href="https://unpkg.com/mdui@2.1.3/mdui.css">
+    <!-- 引入图标库 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="mdui-theme-auto">
+    <mdui-dialog headline="编辑歌词" id="lyric-editor-dialog">
+        <mdui-text-field class="content" rows="5" label="在此处输入歌词"></mdui-text-field>
+        <mdui-button class="cancel" slot="action" variant="text">取消</mdui-button>
+        <mdui-button class="submit" slot="action" variant="tonal">保存</mdui-button>
+    </mdui-dialog>
+    <mdui-top-app-bar variant="small" scroll-behavior="elevate">
+        <mdui-button-icon icon="refresh--outlined" onclick="location.reload();" variant="outlined"></mdui-button-icon>
+        <mdui-top-app-bar-title>SPL 歌词同步工具</mdui-top-app-bar-title>
+        <div class="app-bar-blank"></div>
+        <mdui-button-icon icon="question_mark--outlined"></mdui-button-icon>
+        <mdui-dropdown>
+            <mdui-button-icon slot="trigger" icon="add--outlined" variant="tonal"></mdui-button-icon>
+            <mdui-menu>
+                <mdui-menu-item id="audio-chooser" icon="music_note--outlined">加载音频</mdui-menu-item>
+                <input type="file" name="audio" id="audio-input" class="file-input" accept="audio/*"/>
+                <mdui-divider></mdui-divider>
+                <mdui-menu-item id="lyric-chooser" icon="lyrics--outlined">加载歌词</mdui-menu-item>
+                <input type="file" name="lyric" id="lyric-input" class="file-input"/>
+                <mdui-menu-item id="lyric-editor" icon="edit--outlined">编辑歌词</mdui-menu-item>
+            </mdui-menu>
+        </mdui-dropdown>
+    </mdui-top-app-bar>
+    <div id="container">
+
+    </div>
+    <mdui-bottom-app-bar>
+        <mdui-slider id="controller-progress" class="controller" disabled></mdui-slider>
+        <mdui-button-icon id="controller-backward" class="controller" disabled icon="keyboard_double_arrow_left--outlined"></mdui-button-icon>
+        <mdui-button-icon id="controller-pause" class="controller" disabled icon="play_arrow--outlined"></mdui-button-icon>
+        <mdui-button-icon id="controller-forward" class="controller" disabled icon="keyboard_double_arrow_right--outlined"></mdui-button-icon>
+        <mdui-button-icon id="controller-speed" class="controller" disabled icon="speed--outlined"></mdui-button-icon>
+        <mdui-button-icon id="copy_spl" icon="file_copy--outlined"></mdui-button-icon>
+        <div class="app-bar-blank"></div>
+        <mdui-fab class="controller" disabled icon="add_location--outlined"></mdui-fab>
+    </mdui-bottom-app-bar>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/mdui@2.1.3/mdui.global.js"></script>
+    <!-- 引入脚本 -->
+    <script src="script.js"></script>
+</body>
+</html>
