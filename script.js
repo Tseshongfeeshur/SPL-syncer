@@ -1,5 +1,3 @@
-mdui.setColorScheme('#4050A0')
-
 // 初始化全局变量
 // 音频播放对象
 let audio = new Audio();
@@ -496,6 +494,7 @@ async function copyLyric() {
 
 // 页面初始化
 document.addEventListener('DOMContentLoaded', function() {
+    mdui.setColorScheme('#4050A0');
     addActionForAudio();
     addActionForLyric();
 });
