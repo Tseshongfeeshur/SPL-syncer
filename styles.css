@@ -1,9 +1,8 @@
-/* 隐藏未注册的组件 */
 :not(:defined) {
   visibility: hidden;
 }
 
-html body {
+html, body {
     margin: 0;
 }
 
@@ -13,7 +12,6 @@ input.file-input {
 
 div#container {
     min-height: calc(100vh - 10rem);
-    margin: 2rem;
 }
 
 div#empty-icon-container {
@@ -30,11 +28,12 @@ mdui-icon#empty-icon {
 }
 
 div.lyric-line {
-    padding: .8em;
+    padding: 1em 1.4em;
 }
 
 mdui-chip.lyric-item {
     margin: .2em .4em;
+    font-weight: ragular;
 }
 
 mdui-chip:not([loading])::part(button) {

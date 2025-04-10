@@ -29,7 +29,7 @@
                 <input type="file" name="audio" id="audio-input" class="file-input" accept="audio/*"/>
                 <mdui-divider></mdui-divider>
                 <mdui-menu-item id="lyric-chooser" icon="lyrics--outlined">加载歌词</mdui-menu-item>
-                <input type="file" name="lyric" id="lyric-input" class="file-input"/>
+                <input type="file" name="lyric" id="lyric-input" class="file-input" accept=".txt,.lrc,.spl"/>
                 <mdui-menu-item id="lyric-editor" icon="edit--outlined">编辑歌词</mdui-menu-item>
             </mdui-menu>
         </mdui-dropdown>
@@ -45,7 +45,7 @@
         <mdui-button-icon id="controller-pause" class="controller" icon="play_arrow--outlined" disabled></mdui-button-icon>
         <mdui-button-icon id="controller-forward" class="controller" icon="keyboard_double_arrow_right--outlined" disabled></mdui-button-icon>
         <mdui-button-icon id="controller-speed" class="controller" icon="speed--outlined" disabled></mdui-button-icon>
-            <mdui-dialog headline="设置倍速" id="speed-editor-dialog">
+            <mdui-dialog headline="倍速" id="speed-editor-dialog">
                 <mdui-slider class="speed" min="1" max="20" tickmarks step="1"></mdui-slider>
                 <mdui-button class="ok" slot="action" variant="tonal">好了</mdui-button>
             </mdui-dialog>

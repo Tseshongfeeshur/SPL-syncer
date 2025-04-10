@@ -5,6 +5,7 @@ let audio = new Audio();
 let lyricText = '';
 // 歌词数据对象，存储解析后的歌词
 let lyric;
+// 当前处理的词坐标
 let currentItem = [0, 0];
 
 
@@ -12,18 +13,16 @@ let currentItem = [0, 0];
 function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    
     const paddedMinutes = String(minutes).padStart(2, '0');
     const paddedSeconds = secs.toFixed(2).padStart(5, '0');
-    
     return `${paddedMinutes}:${paddedSeconds}`;
 }
 
 /* 
 该函数存在一些作者不知道如何解决的问题，
 即音频手动定位至末尾 / 在末尾步进
-导致的“Uncaught (in promise) DOMException: 
-The element has no supported sources.”错误，
+导致的"Uncaught (in promise) DOMException: 
+The element has no supported sources."错误，
 目前使用一些简单粗暴的小伎俩避开了触发条件，
 虽然目前使用接近正常，
 但该问题仍谈不上已解决。
@@ -63,7 +62,7 @@ function addActionForAudio() {
         controllers.progress.value = 0;
         audio.currentTime = 0;
     });
-
+    
     // 步退
     controllers.backward.addEventListener('click', () => {
         // 防止过度
@@ -73,7 +72,7 @@ function addActionForAudio() {
             audio.currentTime = 0;
         }
     });
-
+    
     // 步进
     controllers.forward.addEventListener('click', () => {
         // 防止过度
@@ -102,6 +101,7 @@ function addActionForAudio() {
         }
     });
     
+    // 标记
     controllers.tag.addEventListener('click', tag);
     
     // 倍速
@@ -122,10 +122,10 @@ function addActionForAudio() {
         speedEditorDialog.open = true;
     });
     
-    // 复制按钮
+    // 复制
     const copyLyricButton = document.getElementById('copy-spl');
-    copyLyricButton.addEventListener('click', copyLyric)
-
+    copyLyricButton.addEventListener('click', copyLyric);
+    
     // 更新音频
     function updateAudio(audioFile) {
         // 清理旧的
@@ -136,14 +136,14 @@ function addActionForAudio() {
         }
         // 创建新的
         audio.src = URL.createObjectURL(audioFile);
-
+        
         // 初始化
         audio.addEventListener('loadedmetadata', () => {
             duration = audio.duration;
             // 初始化进度条
             controllers.progress.max = duration;
         });
-
+        
         // 启用所有控制器
         for (const key in controllers) {
             const element = controllers[key];
@@ -172,7 +172,9 @@ function addActionForLyric() {
     // 获取节点
     const lyricChooser = document.getElementById('lyric-chooser');
     const lyricInput = document.getElementById('lyric-input');
-
+    const lyricEditor = document.getElementById('lyric-editor');
+    const lyricEditorDialog = document.getElementById('lyric-editor-dialog');
+    
     // 监听歌词文件选择
     lyricInput.addEventListener('change', function(event) {
         const lyricFile = event.target.files[0];
@@ -189,15 +191,13 @@ function addActionForLyric() {
         lyricInput.click();
     });
 
-    // 编辑
-    // 窗口
-    const lyricEditor = document.getElementById('lyric-editor');
-    const lyricEditorDialog = document.getElementById('lyric-editor-dialog');
+    // 编辑窗口
     const cancelButton = lyricEditorDialog.querySelector('mdui-button.cancel');
-    cancelButton.addEventListener('click', () => lyricEditorDialog.open = false);
     const submitButton = lyricEditorDialog.querySelector('mdui-button.submit');
     const lyricContent = lyricEditorDialog.querySelector('mdui-text-field.content');
-    // 存储
+    // 取消
+    cancelButton.addEventListener('click', () => lyricEditorDialog.open = false);
+    // 提交
     submitButton.addEventListener('click', function() {
         updateLyric(lyricContent.value);
         lyricEditorDialog.open = false;
@@ -300,22 +300,21 @@ function parseLyric(text) {
 function renderLyric(lyric) {
     const container = document.getElementById('container');
     const listElement = document.createElement('mdui-list');
-    // 递归展开对象
+    
+    // 递归展开
     lyric.lines.forEach((line, lineIndex) => {
-        // 创建 mdui-list-item 作为每一行的容器
+        // 创建行容器
         const lineElementBox = document.createElement('mdui-list-item');
         
-        // 创建自定义 div 用于显示歌词行
+        // 显示歌词行
         const lineElement = document.createElement('div');
-        lineElement.slot = 'custom'; // 如果 mdui-list-item 支持 slot
+        lineElement.slot = 'custom';
         lineElement.className = 'lyric-line';
         lineElement.dataset.lineIndex = lineIndex;
         lineElement.id = `line-${lineIndex}`;
-        
-        // 将 div 添加到 <mdui-list-item>
         lineElementBox.appendChild(lineElement);
         
-        // 遍历每行的单词，创建 <mdui-chip>
+        // 遍历创建单词
         line.words.forEach((word, itemIndex) => {
             const itemElement = document.createElement('mdui-chip');
             itemElement.textContent = word.content; // 设置单词内容
@@ -323,91 +322,124 @@ function renderLyric(lyric) {
             itemElement.dataset.itemIndex = itemIndex; // 单词序号
             itemElement.dataset.lineIndex = lineIndex; // 行号
             itemElement.id = `line-${lineIndex}-item-${itemIndex}`;
+            // 若该单词已有时间戳
+            if (word.start) {
+                // 呈现为已标记
+                itemElement.elevated = true;
+            }
             
+            // 点击单词重新标记
             itemElement.addEventListener('click', (event) => {
                 const currentLineIndex = parseInt(event.target.dataset.lineIndex, 10);
                 const currentItemIndex = parseInt(event.target.dataset.itemIndex, 10);
-                retag(currentLineIndex, currentItemIndex);
+                reTag(currentLineIndex, currentItemIndex);
             });
             
-            // 将单词 chip 添加到行 div 中
+            // 添加单词到页面
             lineElement.appendChild(itemElement);
         });
         
-        // 将整行添加到列表容器中
+        // 添加整行到列表容器
         listElement.appendChild(lineElementBox);
     });
-
+    
+    // 清空原内容
     container.innerHTML = '';
     container.appendChild(listElement);
+    
+    // 激活首行首词
+    reTag(0, 0);
 }
 
 // 更新歌词
 function updateLyric(text) {
+    // 更新文本
     lyricText = text;
+    // 重新解析
     lyric = parseLyric(lyricText);
+    // 重新渲染
     renderLyric(lyric);
 }
 
-function retag(line, item) {
-    // 确保 line 和 item 是数字
+// 重新标记
+function reTag(line, item) {
     line = parseInt(line, 10);
     item = parseInt(item, 10);
     
-    // lyric.lines[line].words.forEach((word, wordIndex) => {
-    //     console.log(item,wordIndex);
-    //     word.start = null;
-    // });
-    // lyric.lines[line].end = null;
+    // 记录上一个单词
     const lastItem = { ...currentItem };
     currentItem = [line, item];
     
-    // 修复选择器
+    // 将上一个取消活动状态
     const lastItemElement = document.getElementById(`line-${lastItem[0]}`).querySelector(`mdui-chip#line-${lastItem[0]}-item-${lastItem[1]}`);
     if (lastItemElement) lastItemElement.loading = false;
+    
+    // 为当前加上活动状态
     const currentItemElement = document.getElementById(`line-${currentItem[0]}`).querySelector(`mdui-chip#line-${currentItem[0]}-item-${currentItem[1]}`);
     if (currentItemElement) {
         currentItemElement.loading = true;
     }
 }
 
+// 标记
 function tag() {
+    // 记录上一个单词
     const lastItem = { ...currentItem };
+    
+    // 本行未完成时
     if (lastItem[1] >= 0) {
+        // 先记录时间
         lyric.lines[lastItem[0]].words[lastItem[1]].start = formatTime(audio.currentTime);
+        // 若当前非行末
         if (currentItem[1] + 1 < lyric.lines[lastItem[0]].words.length) {
+            // 上一个词已标记，激活下一个词
             currentItem[1]++;
-            // 修复选择器中的连字符
             const lastItemElement = document.getElementById(`line-${lastItem[0]}`).querySelector(`mdui-chip#line-${lastItem[0]}-item-${lastItem[1]}`);
-                lastItemElement.loading = false;
-                lastItemElement.elevated = true;
-
-            // 修复选择器中的连字符
+            lastItemElement.loading = false;
+            lastItemElement.elevated = true;
             const currentItemElement = document.getElementById(`line-${currentItem[0]}`).querySelector(`mdui-chip#line-${currentItem[0]}-item-${currentItem[1]}`);
             if (currentItemElement) {
                 currentItemElement.loading = true;
             }
+        // 若当前是行末
         } else {
+            // 使用 -1 标记为行末
             currentItem[1] = -1;
-            // 修复选择器中的连字符
+            // 行末词已标记，但不激活下一个词
             const lastItemElement = document.getElementById(`line-${lastItem[0]}`).querySelector(`mdui-chip#line-${lastItem[0]}-item-${lastItem[1]}`);
             if (lastItemElement) {
                 lastItemElement.loading = false;
                 lastItemElement.elevated = true;
             }
         }
+    // 本行已完成时
     } else {
+        // 先记录时间
         lyric.lines[lastItem[0]].end = formatTime(audio.currentTime);
+        // 若已完成，直接返回
+        if (currentItem[0] == -1) return;
+        // 若还有下一行
         if (currentItem[0] + 1 < lyric.lines.length) {
+            // 下一行首词活动
             currentItem[0]++;
             currentItem[1] = 0;
-            // 修复选择器中的连字符
             const currentItemElement = document.getElementById(`line-${currentItem[0]}`).querySelector(`mdui-chip#line-${currentItem[0]}-item-${currentItem[1]}`);
             if (currentItemElement) {
                 currentItemElement.loading = true;
             }
+            // 页面随标记滚动
+            const elementTop = currentItemElement.getBoundingClientRect().top + window.pageYOffset;
+            const targetPosition = elementTop - (window.innerHeight / 4);
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+            console.log(targetPosition)
+        // 若无下一行
         } else {
+            // 标记为完成
             currentItem = [-1, -1];
+            // 提示
             mdui.snackbar({
                 message: "同步完成"
             });
@@ -415,6 +447,7 @@ function tag() {
     }
 }
 
+// 复制
 async function copyLyric() {
     const result = lyric.lines
         .map(line => {
@@ -427,7 +460,6 @@ async function copyLyric() {
         })
         .join('\n');
     
-    // 复制到剪贴板
     try {
         await navigator.clipboard.writeText(result);
         mdui.snackbar({
@@ -435,14 +467,14 @@ async function copyLyric() {
         });
     } catch (err) {
         mdui.snackbar({
-            message: `复制失败（${err}）`
+            message: `复制失败，可自行从控制台复制。（${err}）`
         });
+        console.log(result);
     }
     
-    return result; // 仍然返回结果字符串
+    // 也要返回
+    return result;
 }
-
-
 
 // 页面初始化
 document.addEventListener('DOMContentLoaded', function() {
