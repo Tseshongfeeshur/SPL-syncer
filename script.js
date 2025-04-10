@@ -103,6 +103,12 @@ function addActionForAudio() {
     
     // 标记
     controllers.tag.addEventListener('click', tag);
+    const container = document.getElementById('container');
+    container.addEventListener('keydown', function(event) {
+        if (event.key === 'g' || event.key === 'G') {
+            tag();
+        }
+    });
     
     // 倍速
     // 弹窗
