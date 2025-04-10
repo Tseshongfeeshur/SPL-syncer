@@ -2,16 +2,24 @@
   visibility: hidden;
 }
 
+@media (prefers-color-scheme: light) {
+    html.mdui-theme-auto {
+        background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    html.mdui-theme-auto {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+    }
+}
+
 html, body {
     margin: 0;
 }
 
 input.file-input {
     display: none;
-}
-
-div#container {
-    min-height: calc(100vh - 10rem);
 }
 
 div#empty-icon-container {
