@@ -211,6 +211,12 @@ function addActionForLyric() {
 
 // 解析歌词
 function parseLyric(text) {
+    mdui.snackbar({
+        message: "正在解析歌词",
+        autoCloseDelay: 3000,
+        closeable: true
+    });
+    
     // 将文本按行分割
     const rawLines = text.trim().split('\n');
     
@@ -291,6 +297,12 @@ function parseLyric(text) {
             words: lineWords,
             end: endTime
         });
+    });
+    
+    mdui.snackbar({
+        message: "歌词解析完成",
+        autoCloseDelay: 3000,
+        closeable: true
     });
     
     return result;
@@ -434,14 +446,15 @@ function tag() {
                 top: targetPosition,
                 behavior: 'smooth'
             });
-            console.log(targetPosition)
         // 若无下一行
         } else {
             // 标记为完成
             currentItem = [-1, -1];
             // 提示
             mdui.snackbar({
-                message: "同步完成"
+                message: "同步完成",
+                autoCloseDelay: 3000,
+                closeable: true
             });
         }
     }
@@ -463,11 +476,14 @@ async function copyLyric() {
     try {
         await navigator.clipboard.writeText(result);
         mdui.snackbar({
-            message: "已复制"
+            message: "已复制",
+            autoCloseDelay: 3000,
+            closeable: true
         });
     } catch (err) {
         mdui.snackbar({
-            message: `复制失败，可自行从控制台复制。（${err}）`
+            message: `复制失败，可自行从控制台复制。（${err}）`,
+            closeable: true
         });
         console.log(result);
     }
