@@ -31,6 +31,7 @@ div#empty-icon-container {
 }
 
 mdui-icon#empty-icon {
+    margin: 20vh;
     font-size: 4em;
     color: rgb(var(--mdui-color-surface-variant));
 }
