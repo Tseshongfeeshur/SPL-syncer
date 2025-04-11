@@ -218,6 +218,10 @@ function addActionForLyric() {
     // 打开窗口
     lyricEditor.addEventListener('click', function() {
         lyricContent.value = lyricText;
+        const textAria = lyricEditorDialog.querySelector('mdui-text-field.content');
+        lyricEditorDialog.addEventListener('opened', () => {
+            textAria.rows = (lyricEditorDialog.clientHeight / 24 - 8);
+        });
         lyricEditorDialog.open = true;
     });
 }
