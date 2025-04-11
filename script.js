@@ -495,10 +495,21 @@ async function copyLyric() {
         });
     } catch (err) {
         mdui.snackbar({
-            message: `复制失败，可自行从控制台复制。（${err}）`,
+            message: `复制失败，可自行在对话框中复制。`,
             closeable: true
         });
-        console.log(result);
+        mdui.prompt({
+            headline: "结果",
+            description: "您可以手动全选后复制。",
+            confirmText: '复制好了',
+            cancelText: "关闭",
+            textFieldOptions: {
+                label: '歌词',
+                value: result,
+                rows: '5',
+                readonly: true
+            }
+        });
     }
     
     // 也要返回
