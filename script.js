@@ -103,12 +103,6 @@ function addActionForAudio() {
     
     // 标记
     controllers.tag.addEventListener('click', tag);
-    const container = document.getElementById('container');
-    container.addEventListener('keydown', function(event) {
-        if (event.key === 'g' || event.key === 'G') {
-            tag();
-        }
-    });
     
     // 倍速
     // 弹窗
@@ -164,6 +158,11 @@ function addActionForAudio() {
         const audioFile = event.target.files[0];
         if (audioFile) {
             updateAudio(audioFile);
+            mdui.snackbar({
+                message: "音频提交完成",
+                autoCloseDelay: 3000,
+                closeable: true
+            });
         }
     });
     
@@ -184,12 +183,20 @@ function addActionForLyric() {
     // 监听歌词文件选择
     lyricInput.addEventListener('change', function(event) {
         const lyricFile = event.target.files[0];
-        // 读取文件
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            updateLyric(e.target.result);
-        };
-        reader.readAsText(lyricFile);
+        // 判断文件过大
+        if (lyricFile.size > 5 * 1024 * 1024) {
+            mdui.snackbar({
+                message: "歌词文件过大",
+                closeable: true
+            });
+        } else {
+            // 读取文件
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                updateLyric(e.target.result);
+            };
+            reader.readAsText(lyricFile);
+        }
     });
 
     // 触发文件选择
@@ -503,4 +510,9 @@ document.addEventListener('DOMContentLoaded', function() {
     mdui.setColorScheme('#4050A0');
     addActionForAudio();
     addActionForLyric();
+    window.addEventListener('beforeunload', function(e) {
+        const message = "重新加载此网站？";
+        e.returnValue = message;
+        return message;
+    });
 });

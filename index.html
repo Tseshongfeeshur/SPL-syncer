@@ -12,16 +12,13 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <mdui-dialog headline="编辑歌词" id="lyric-editor-dialog">
-        <mdui-text-field class="content" rows="5" label="在此处输入歌词"></mdui-text-field>
-        <mdui-button class="cancel" slot="action" variant="text">取消</mdui-button>
-        <mdui-button class="submit" slot="action" variant="tonal">保存</mdui-button>
-    </mdui-dialog>
     <mdui-top-app-bar variant="small" scroll-behavior="elevate">
         <mdui-button-icon icon="refresh--outlined" onclick="location.reload();" variant="outlined"></mdui-button-icon>
         <mdui-top-app-bar-title>SPL 歌词同步工具</mdui-top-app-bar-title>
         <div class="app-bar-blank"></div>
-        <mdui-button-icon id="helper" icon="question_mark--outlined"></mdui-button-icon>
+        <mdui-tooltip content="向导">
+            <mdui-button-icon id="helper" icon="question_mark--outlined"></mdui-button-icon>
+        </mdui-tooltip>
         <mdui-dropdown>
             <mdui-button-icon slot="trigger" icon="add--outlined" variant="tonal"></mdui-button-icon>
             <mdui-menu>
@@ -33,7 +30,7 @@
                 <mdui-menu-item id="lyric-editor" icon="edit--outlined">编辑歌词</mdui-menu-item>
             </mdui-menu>
         </mdui-dropdown>
-    </mdui-top-app-bar>
+        </mdui-top-app-bar>
     <div id="container">
         <div id="empty-icon-container">
             <mdui-icon id="empty-icon" name="code_off--outlined"></mdui-icon>
@@ -41,18 +38,35 @@
     </div>
     <mdui-bottom-app-bar>
         <mdui-slider id="controller-progress" class="controller" min="0" max="0" disabled></mdui-slider>
-        <mdui-button-icon id="controller-backward" class="controller" icon="keyboard_double_arrow_left--outlined" disabled></mdui-button-icon>
-        <mdui-button-icon id="controller-pause" class="controller" icon="play_arrow--outlined" disabled></mdui-button-icon>
-        <mdui-button-icon id="controller-forward" class="controller" icon="keyboard_double_arrow_right--outlined" disabled></mdui-button-icon>
-        <mdui-button-icon id="controller-speed" class="controller" icon="speed--outlined" disabled></mdui-button-icon>
+        <mdui-tooltip open-delay="500" content="步退 5 秒（H）" placement="top-start">
+            <mdui-button-icon id="controller-backward" class="controller" icon="keyboard_double_arrow_left--outlined" disabled></mdui-button-icon>
+        </mdui-tooltip>
+        <mdui-tooltip open-delay="500" content="暂停（Space）">
+            <mdui-button-icon id="controller-pause" class="controller" icon="play_arrow--outlined" disabled></mdui-button-icon>
+        </mdui-tooltip>
+        <mdui-tooltip open-delay="500" content="步进 5 秒（K）">
+            <mdui-button-icon id="controller-forward" class="controller" icon="keyboard_double_arrow_right--outlined" disabled></mdui-button-icon>
+        </mdui-tooltip>
+        <mdui-tooltip open-delay="500" content="倍速">
+            <mdui-button-icon id="controller-speed" class="controller" icon="speed--outlined" disabled></mdui-button-icon>
+        </mdui-tooltip>
             <mdui-dialog headline="倍速" id="speed-editor-dialog">
                 <mdui-slider class="speed" min="1" max="20" tickmarks step="1"></mdui-slider>
                 <mdui-button class="ok" slot="action" variant="tonal">好了</mdui-button>
             </mdui-dialog>
-        <mdui-button-icon id="copy-spl" icon="file_copy--outlined"></mdui-button-icon>
+        <mdui-tooltip open-delay="500" content="复制结果">
+            <mdui-button-icon id="copy-spl" icon="file_copy--outlined"></mdui-button-icon>
+        </mdui-tooltip>
         <div class="app-bar-blank"></div>
-        <mdui-fab id="controller-tag" class="controller" icon="add_location--outlined" disabled></mdui-fab>
+        <mdui-tooltip open-delay="500" content="标记（J）" placement="top-end">
+            <mdui-fab id="controller-tag" class="controller" icon="add_location--outlined" disabled></mdui-fab>
+        </mdui-tooltip>
     </mdui-bottom-app-bar>
+    <mdui-dialog headline="编辑歌词" id="lyric-editor-dialog">
+        <mdui-text-field class="content" rows="5" label="在此处输入歌词"></mdui-text-field>
+        <mdui-button class="cancel" slot="action" variant="text">取消</mdui-button>
+        <mdui-button class="submit" slot="action" variant="tonal">保存</mdui-button>
+    </mdui-dialog>
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/mdui@2.1.3/mdui.global.js"></script>
     <!-- 引入脚本 -->

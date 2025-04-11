@@ -37,16 +37,21 @@ mdui-icon#empty-icon {
 }
 
 div.lyric-line {
-    padding: 1em 1.4em;
+    padding: 1em 1.6em;
 }
 
 mdui-chip.lyric-item {
     margin: .2em .4em;
-    font-weight: ragular;
+    font-weight: regular;
 }
 
 mdui-chip:not([loading])::part(button) {
     padding: 2px;
+}
+
+mdui-chip[elevated] {
+    background-color: rgb(var(--mdui-color-secondary-container));
+    box-shadow: 0 0 0 0 transparent;
 }
 
 mdui-slider#controller-progress {
