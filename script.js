@@ -66,8 +66,8 @@ function addActionForAudio() {
     // 步退
     controllers.backward.addEventListener('click', () => {
         // 防止过度
-        if (audio.currentTime > 5) {
-            audio.currentTime -= 5;
+        if (audio.currentTime > 1) {
+            audio.currentTime -= 1;
         } else {
             audio.currentTime = 0;
         }
@@ -76,8 +76,8 @@ function addActionForAudio() {
     // 步进
     controllers.forward.addEventListener('click', () => {
         // 防止过度
-        if (duration - audio.currentTime > 5) {
-            audio.currentTime += 5;
+        if (duration - audio.currentTime > 1) {
+            audio.currentTime += 1;
         } else {
             audio.currentTime = 0;
         }
