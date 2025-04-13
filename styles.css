@@ -18,7 +18,7 @@ html, body {
     margin: 0;
 }
 
-mdui-top-app-bar-title, mdui-tooltip {
+mdui-top-app-bar-title, mdui-tooltip, div#empty-icon-container, mdui-chip.lyric-item {
     user-select: none;
 }
 
@@ -28,16 +28,21 @@ input.file-input {
 
 div#empty-icon-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
+    margin-top: 20vh;
+    color: rgb(var(--mdui-color-surface-dim));
+}
+
+span#empty-desc {
+    margin: .2em 0;
 }
 
 mdui-icon#empty-icon {
-    margin: 20vh;
     font-size: 4em;
-    color: rgb(var(--mdui-color-surface-variant));
+    margin-bottom: .3em;
 }
 
 div.lyric-line {

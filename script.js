@@ -526,7 +526,7 @@ document.addEventListener('DOMContentLoaded', function() {
     addActionForAudio();
     addActionForLyric();
     window.addEventListener('beforeunload', function(e) {
-        const message = "重新加载此网站？";
+        const message = "系统可能不会保存您所做的更改。";
         e.returnValue = message;
         return message;
     });

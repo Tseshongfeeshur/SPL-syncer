@@ -1,21 +1,6 @@
 let currentMsgIndex = 0;
 
 function showHelp() {
-    function show(currentMsgIndex, string) {
-        mdui.confirm({
-            headline: `向导（${currentMsgIndex + 1} / ${helpMsg.length}）`,
-            description: string,
-            confirmText: "下一步",
-            cancelText: "去看看",
-            onConfirm: nextHelp
-        });
-    }
-    
-    function nextHelp() {
-        currentMsgIndex ++;
-        showHelp();
-    }
-    
     helpMsg = [
         '该向导可帮助您了解本工具的使用方法。确定要开始该向导吗？单击“下一步”以开始向导，单击“去看看”以停止向导。向导过程中，您可以随时停止。',
         '向导会在该对话框一步步地指导您操作。阅读完对话框内容后，您可以单击“去看看”暂时关闭向导，以进行您的操作。若您不慎遗忘了当前这步操作，单击右上角的“?”按钮可以重新打开当前这步对话框。当您完成一步后，您可以单击“下一步”以进行接下来的操作。',
@@ -30,6 +15,21 @@ function showHelp() {
         '当您标记完所有歌词后，您可以单击底部应用栏的“复制”按钮（左数第五个）来复制最终的 SPL 歌词。',
         '向导到此结束。祝您使用愉快。🌹'
     ]
+    
+    function show(currentMsgIndex, string) {
+        mdui.confirm({
+            headline: `向导（${currentMsgIndex + 1} / ${helpMsg.length}）`,
+            description: string,
+            confirmText: "下一步",
+            cancelText: "去看看",
+            onConfirm: nextHelp
+        });
+    }
+    
+    function nextHelp() {
+        currentMsgIndex ++;
+        showHelp();
+    }
     
     if (currentMsgIndex < helpMsg.length) {
         show(currentMsgIndex, helpMsg[currentMsgIndex]);
