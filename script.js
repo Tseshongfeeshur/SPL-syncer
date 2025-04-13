@@ -41,19 +41,78 @@ function addActionForAudio() {
         tag: document.getElementById('controller-tag')
     };
     
+    
     // 音频总时长
     let duration;
     
+    
+    // 控制函数
+    // 步退
+    function backward() {
+        // 防止过度
+        if (audio.currentTime > 1) {
+            audio.currentTime -= 1;
+        } else {
+            audio.currentTime = 0;
+        }
+    }
+    // 暂停
+    function pause() {
+        const isPlaying = !audio.paused && !audio.ended;
+        isPlaying ? audio.pause() : audio.play();
+    }
+    // 步进
+    function forward() {
+        // 防止过度
+        if (duration - audio.currentTime > 1) {
+            audio.currentTime += 1;
+        } else {
+            audio.currentTime = 0;
+        }
+    }
+    
+    
+    // 快捷键操作绑定
+    document.addEventListener('keydown', function(event) {
+        // 若不是在输入
+        if (document.activeElement.tagName !== 'MDUI-TEXT-FIELD') {
+            if (event.key === 'k' || event.key === 'K') {
+                // 标记
+                tag();
+            } else if (event.key === 's' || event.key === 'S') {
+                // 步退
+                backward();
+            } else if (event.key === 'd' || event.key === 'D') {
+                // 暂停
+                pause();
+            } else if (event.key === 'f' || event.key === 'F') {
+                // 步进
+                forward();
+            } else if (event.key === 'j' || event.key === 'J') {
+                // 焦点左移
+                reTag(currentItem[0], currentItem[1] - 1);
+            } else if (event.key === 'l' || event.key === 'L') {
+                // 焦点右移
+                reTag(currentItem[0], currentItem[1] + 1);
+            } else if (event.key === 'i' || event.key === 'I') {
+                // 焦点上移
+                reTag(currentItem[0] - 1, 0);
+            } else if (event.key === 'm' || event.key === 'M') {
+                // 焦点下移
+                reTag(currentItem[0] + 1, 0);
+            }
+        }
+    });
+    
+    
+    // 按钮操作绑定document.activeElement.tagN
     // 暂停
     // 图标更新
     function updatePauseIcon(isPlaying, button) {
         button.icon = isPlaying ? 'pause--outlined' : 'play_arrow--outlined';
     }
     // 点击事件
-    controllers.pause.addEventListener('click', () => {
-        const isPlaying = !audio.paused && !audio.ended;
-        isPlaying ? audio.pause() : audio.play();
-    });
+    controllers.pause.addEventListener('click', pause);
     // 监听播放状态变化
     audio.addEventListener('play', () => updatePauseIcon(true, controllers.pause));
     audio.addEventListener('pause', () => updatePauseIcon(false, controllers.pause));
@@ -64,24 +123,10 @@ function addActionForAudio() {
     });
     
     // 步退
-    controllers.backward.addEventListener('click', () => {
-        // 防止过度
-        if (audio.currentTime > 1) {
-            audio.currentTime -= 1;
-        } else {
-            audio.currentTime = 0;
-        }
-    });
+    controllers.backward.addEventListener('click', backward);
     
     // 步进
-    controllers.forward.addEventListener('click', () => {
-        // 防止过度
-        if (duration - audio.currentTime > 1) {
-            audio.currentTime += 1;
-        } else {
-            audio.currentTime = 0;
-        }
-    });
+    controllers.forward.addEventListener('click', forward);
     
     // 进度条
     // 标签
@@ -126,6 +171,7 @@ function addActionForAudio() {
     const copyLyricButton = document.getElementById('copy-spl');
     copyLyricButton.addEventListener('click', copyLyric);
     
+    
     // 更新音频
     function updateAudio(audioFile) {
         // 清理旧的
@@ -153,6 +199,7 @@ function addActionForAudio() {
         }
     }
     
+    
     // 监听音频文件选择
     audioInput.addEventListener('change', (event) => {
         const audioFile = event.target.files[0];
@@ -165,6 +212,7 @@ function addActionForAudio() {
             });
         }
     });
+    
     
     // 触发文件选择
     audioChooser.addEventListener('click', () => {
@@ -397,16 +445,53 @@ function reTag(line, item) {
     
     // 记录上一个单词
     const lastItem = { ...currentItem };
-    currentItem = [line, item];
-    
-    // 将上一个取消活动状态
-    const lastItemElement = document.getElementById(`line-${lastItem[0]}`).querySelector(`mdui-chip#line-${lastItem[0]}-item-${lastItem[1]}`);
-    if (lastItemElement) lastItemElement.loading = false;
-    
-    // 为当前加上活动状态
-    const currentItemElement = document.getElementById(`line-${currentItem[0]}`).querySelector(`mdui-chip#line-${currentItem[0]}-item-${currentItem[1]}`);
-    if (currentItemElement) {
-        currentItemElement.loading = true;
+    // 临时赋，以防值无效
+    const tmpCurrentItem = [line, item];
+    if (line <= lyric.lines.length - 1 && line >= 0) {
+        // 若行未溢出
+        if (item <= lyric.lines[line].words.length - 1 && item >= 0) {
+            // 若词未溢出
+            const tmpCurrentItemElement = document.getElementById(`line-${tmpCurrentItem[0]}`).querySelector(`mdui-chip#line-${tmpCurrentItem[0]}-item-${tmpCurrentItem[1]}`);
+            if (tmpCurrentItemElement) {
+                // 将上一个取消活动状态
+                const lastItemElement = document.getElementById(`line-${lastItem[0]}`).querySelector(`mdui-chip#line-${lastItem[0]}-item-${lastItem[1]}`);
+                if (lastItemElement) lastItemElement.loading = false;
+                // 为当前加上活动状态
+                currentItem = [line, item];
+                tmpCurrentItemElement.loading = true;
+                // 页面随标记滚动
+                const elementTop = tmpCurrentItemElement.getBoundingClientRect().top + window.pageYOffset;
+                const targetPosition = elementTop - (window.innerHeight / 4);
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            } else {
+                // 若词纸片不存在
+                mdui.snackbar({
+                    message: `找不到下一个词。`,
+                    closeable: true
+                });
+            }
+        } else if (item > lyric.lines[line].words.length - 1) {
+            // 若行末
+            reTag(line + 1, 0);
+        } else if (line >= 1) {
+            // 若行首
+            reTag(line - 1, lyric.lines[line - 1].words.length - 1);
+        } else {
+            // 若首行行首
+            mdui.snackbar({
+                message: `该份歌词已切换到尽头。`,
+                closeable: true
+            });
+        }
+    } else {
+        // 其他情况（末行行末或首 / 末行向上 / 下切换）
+        mdui.snackbar({
+            message: `该份歌词已切换到尽头。`,
+            closeable: true
+        });
     }
 }
 
