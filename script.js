@@ -50,8 +50,8 @@ function addActionForAudio() {
     // 步退
     function backward() {
         // 防止过度
-        if (audio.currentTime > 1) {
-            audio.currentTime -= 1;
+        if (audio.currentTime > 2) {
+            audio.currentTime -= 2;
         } else {
             audio.currentTime = 0;
         }
@@ -64,8 +64,8 @@ function addActionForAudio() {
     // 步进
     function forward() {
         // 防止过度
-        if (duration - audio.currentTime > 1) {
-            audio.currentTime += 1;
+        if (duration - audio.currentTime > 2) {
+            audio.currentTime += 2;
         } else {
             audio.currentTime = 0;
         }
