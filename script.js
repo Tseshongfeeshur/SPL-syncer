@@ -408,6 +408,8 @@ function reparseLyricLine(line, text) {
         // 添加单词到行
         lineElement.appendChild(itemElement);
     });
+    // 重置活动词
+    reTag(line, 0);
 }
 
 // 渲染歌词
@@ -432,7 +434,7 @@ function renderLyric(lyric) {
            const text = lyric.lines[line].words.map(word => word.content).join('/');
            mdui.prompt({
                 headline: "重新分词",
-                description: "使用“/”为分隔符，重新分割本行歌词。",
+                description: "以“/”为分隔符重新分割本行歌词。\n此操作会丢失本行所有时间标记。",
                 confirmText: "分词",
                 cancelText: "取消",
                 textFieldOptions: {
