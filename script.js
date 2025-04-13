@@ -373,6 +373,43 @@ function parseLyric(text) {
     return result;
 }
 
+// 单行歌词重分词
+function reparseLyricLine(line, text) {
+    // 分割
+    const newWords = text.split('/');
+    // 修改整行
+    const lineObject = {
+        words: newWords.map(word => ({ content: word, start: null })),
+        end: null
+    };
+    lyric.lines[line] = lineObject;
+    
+    // 重新渲染
+    // 获取父节点
+    const lineElement = document.getElementById(`line-${line}`);
+    lineElement.innerHTML = '';
+    // 遍历创建单词
+    lineObject.words.forEach((word, itemIndex) => {
+        const itemElement = document.createElement('mdui-chip');
+        itemElement.textContent = word.content; // 设置单词内容
+        itemElement.className = 'lyric-item';
+        itemElement.dataset.itemIndex = itemIndex; // 单词序号
+        itemElement.dataset.lineIndex = line; // 行号
+        itemElement.id = `line-${line}-item-${itemIndex}`;
+        
+        // 点击单词重新标记
+        itemElement.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const currentLineIndex = parseInt(event.target.dataset.lineIndex, 10);
+            const currentItemIndex = parseInt(event.target.dataset.itemIndex, 10);
+            reTag(currentLineIndex, currentItemIndex);
+        });
+        
+        // 添加单词到行
+        lineElement.appendChild(itemElement);
+    });
+}
+
 // 渲染歌词
 function renderLyric(lyric) {
     const container = document.getElementById('container');
@@ -390,6 +427,22 @@ function renderLyric(lyric) {
         lineElement.dataset.lineIndex = lineIndex;
         lineElement.id = `line-${lineIndex}`;
         lineElementBox.appendChild(lineElement);
+        lineElementBox.addEventListener('click', (event) => {
+           const line = event.target.dataset.lineIndex;
+           const text = lyric.lines[line].words.map(word => word.content).join('/');
+           mdui.prompt({
+                headline: "重新分词",
+                description: "使用“/”为分隔符，重新分割本行歌词。",
+                confirmText: "分词",
+                cancelText: "取消",
+                textFieldOptions: {
+                    label: '歌词行',
+                    value: text,
+                    rows: '5'
+                },
+                onConfirm: (value) => reparseLyricLine(line, value),
+            });
+        });
         
         // 遍历创建单词
         line.words.forEach((word, itemIndex) => {
@@ -407,12 +460,13 @@ function renderLyric(lyric) {
             
             // 点击单词重新标记
             itemElement.addEventListener('click', (event) => {
+                event.stopPropagation();
                 const currentLineIndex = parseInt(event.target.dataset.lineIndex, 10);
                 const currentItemIndex = parseInt(event.target.dataset.itemIndex, 10);
                 reTag(currentLineIndex, currentItemIndex);
             });
             
-            // 添加单词到页面
+            // 添加单词到行
             lineElement.appendChild(itemElement);
         });
         

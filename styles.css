@@ -33,7 +33,7 @@ div#empty-icon-container {
     justify-content: center;
     align-items: center;
     margin-top: 20vh;
-    color: rgb(var(--mdui-color-surface-dim));
+    color: rgb(var(--mdui-color-outline));
 }
 
 span#empty-desc {
