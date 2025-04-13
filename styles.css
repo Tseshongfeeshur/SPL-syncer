@@ -18,6 +18,10 @@ html, body {
     margin: 0;
 }
 
+mdui-top-app-bar-title, mdui-tooltip {
+    user-select: none;
+}
+
 input.file-input {
     display: none;
 }
