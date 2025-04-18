@@ -26,7 +26,7 @@
             <mdui-button-icon id="helper" icon="question_mark--outlined"></mdui-button-icon>
         </mdui-tooltip>
         <mdui-dropdown>
-            <mdui-button-icon slot="trigger" icon="add--outlined" variant="tonal"></mdui-button-icon>
+            <mdui-button-icon id="uploader" slot="trigger" icon="add--outlined" variant="tonal"></mdui-button-icon>
             <mdui-menu>
                 <mdui-menu-item id="audio-chooser" icon="music_note--outlined">加载音频</mdui-menu-item>
                 <input type="file" name="audio" id="audio-input" class="file-input" accept="audio/*"/>
@@ -40,11 +40,8 @@
     <div id="container">
         <div id="empty-icon-container">
             <mdui-icon id="empty-icon" name="code_off--outlined"></mdui-icon>
-            <span id="empty-des">
-                单击右上角“+”以加载您的资源
-            </span>
             <span id="empty-desc">
-                <strong>单击右上角“?”以查看向导</strong>
+                单击右上角“<strong>?</strong>”以查看向导
             </span>
         </div>
     </div>

@@ -1,68 +1,86 @@
+/* 隐藏未加载的组件 */
 :not(:defined) {
   visibility: hidden;
 }
 
+/* 优化背景色 */
 @media (prefers-color-scheme: light) {
     html.mdui-theme-auto {
         background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
     }
 }
-
 @media (prefers-color-scheme: dark) {
     html.mdui-theme-auto {
         background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
     }
 }
 
+/* 取消默认间距 */
 html, body {
     margin: 0;
 }
 
+/* 防止用户选择文本影响操作 */
 mdui-top-app-bar-title, mdui-tooltip, div#empty-icon-container, mdui-chip.lyric-item {
     user-select: none;
 }
 
+/* 曲线选择帮助对话框，使其显示换行符 */
+mdui-dialog[close-on-esc]::part(description) {
+    white-space: pre-line;
+}
+
+/* 隐藏默认文件选择器 */
 input.file-input {
     display: none;
 }
 
+/* 空页面提示 */
 div#empty-icon-container {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    margin-top: 20vh;
+    margin-top: calc(30vh - 4.5em);
     color: rgb(var(--mdui-color-outline));
 }
-
 span#empty-desc {
     margin: .2em 0;
 }
-
 mdui-icon#empty-icon {
     font-size: 4em;
     margin-bottom: .3em;
 }
 
+/* 歌词行间距 */
 div.lyric-line {
     padding: 1em 1.6em;
 }
 
+/* 歌词行高亮 */
+div.lyric-line:has(mdui-chip[loading]) {
+    background-color: rgb(var(--mdui-color-surface-container));
+}
+
+/* 歌词单词间距 */
 mdui-chip.lyric-item {
     margin: .2em .4em;
     font-weight: regular;
 }
 
+/* 恢复带加载图标的歌词单词间距 */
 mdui-chip:not([loading])::part(button) {
     padding: 2px;
 }
 
+/* 优化纸片默认选中样式 */
 mdui-chip[elevated] {
     background-color: rgb(var(--mdui-color-secondary-container));
     box-shadow: 0 0 0 0 transparent;
 }
 
+/* 进度条贴边 */
 mdui-slider#controller-progress {
     position: fixed;
     bottom: calc(5rem - 1.25rem);
@@ -71,11 +89,59 @@ mdui-slider#controller-progress {
     margin: 0 1rem;
 }
 
+/* 防止倍速控制条溢出 */
 mdui-slider.speed {
     width: calc(100% - 1rem);
     margin: 2rem .5rem 0 .5rem;
 }
 
+/* 应用栏占位间距 */
 div.app-bar-blank {
     flex-grow: 1;
+}
+
+/* 强调效果 */
+:not(mdui-chip):not(.lyric-line).blink {
+    position: relative;
+    overflow: visible;
+}
+:not(mdui-chip):not(.lyric-line).blink::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    bottom: -8px;
+    left: -8px;
+    right: -8px;
+    z-index: 999;
+    border: 4px solid transparent;
+    border-radius: var(--outline-border-radius);
+    pointer-events: none;
+    animation: blink .6s steps(1, end) infinite;
+}
+/* 强调效果动画 */
+@keyframes blink {
+    0%, 100% {
+        border-color: transparent;
+    }
+    50% {
+        border-color: rgb(var(--mdui-color-primary));
+    }
+}
+
+/* 特殊元素特调强调效果 */
+mdui-chip.blink, .lyric-line.blink {
+    outline: 4px solid transparent;
+    animation: outline-blink .6s steps(1, end) infinite;
+}
+.lyric-line.blink {
+    background-color: rgb(var(--mdui-color-surface-variant));
+}
+/* 特殊元素特调强调效果动画 */
+@keyframes outline-blink {
+    0%, 100% {
+        outline-color: transparent;
+    }
+    50% {
+        outline-color: rgb(var(--mdui-color-primary));
+    }
 }
