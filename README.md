@@ -2,6 +2,6 @@
 
 SPL 歌词的逐字同步工具。
 
-# Todo
+# 相关信息
 
-- 在这里添加群组链接。
+- [Telegram](https://t.me/+J-duJdQv1GAzYjE1)
