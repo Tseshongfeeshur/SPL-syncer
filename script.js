@@ -161,7 +161,7 @@ function addActionForAudio() {
         audio.playbackRate = speedProcess.value / 10;
     });
     // 标签
-    speedProcess.labelFormatter = (value) => `×${value / 10}`;
+    speedProcess.labelFormatter = (value) => `${value / 10}x`;
     // 监听点击
     controllers.speed.addEventListener('click', () => {
         speedEditorDialog.open = true;

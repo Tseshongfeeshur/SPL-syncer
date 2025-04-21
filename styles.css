@@ -20,6 +20,11 @@ html, body {
     margin: 0;
 }
 
+/* 添加标题间距 */
+mdui-top-app-bar-title {
+    padding: 0 .5em;
+}
+
 /* 防止用户选择文本影响操作 */
 mdui-top-app-bar-title, mdui-tooltip, div#empty-icon-container, mdui-chip.lyric-item {
     user-select: none;
