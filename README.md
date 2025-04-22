@@ -1,5 +1,7 @@
 # SPL 歌词同步工具
 
+![Icon](./favicon.png)
+
 为 [Salt Player](https://github.com/Moriafly/SaltPlayerSource) 的标准歌词格式 [SPL](https://moriafly.com/standards/spl.html) 提供一个便捷的、高效的**逐字时间轴**编辑方式。
 
 ## 使用向导
