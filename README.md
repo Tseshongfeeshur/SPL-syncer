@@ -4,7 +4,7 @@
 
 ![Icon](./favicon.png)
 
-一个便捷、高效的**逐字时间轴**编辑工具，专为 [Salt Player](https://github.com/Moriafly/SaltPlayerSource) 的 [SPL 歌词格式](https://moriafly.com/standards/spl.html) 设计 
+一个便捷、高效的**逐字时间轴**编辑工具，专为 [Salt Player](https://github.com/Moriafly/SaltPlayerSource) 的 [SPL 歌词格式](https://moriafly.com/standards/spl.html) 设计。
 
 ## ✨ 特性
 

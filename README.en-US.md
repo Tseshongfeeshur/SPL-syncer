@@ -2,7 +2,7 @@
 
 ![Icon](./favicon.png)
 
-A convenient and efficient tool for creating **word-by-word timestamps** for lyrics in the [SPL standard format](https://moriafly.com/standards/spl.html) used by [Salt Player](https://github.com/Moriafly/SaltPlayerSource). Currently guaranteed to work only in **the latest version of Chrome**.
+A convenient and efficient tool for creating **word-by-word timestamps** for lyrics in the [SPL standard format](https://moriafly.com/standards/spl.html) used by [Salt Player](https://github.com/Moriafly/SaltPlayerSource).
 
 ## ✨ Features
 
