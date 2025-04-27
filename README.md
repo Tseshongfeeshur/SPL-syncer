@@ -1,31 +1,52 @@
-# SPL 歌词同步工具
+# SPL 歌词同步工具 (SPL Lyrics Synchronizer)  
+  
+![Icon](./favicon.png)  
+  
+一个便捷、高效的**逐字时间轴**编辑工具，专为 [Salt Player](https://github.com/Moriafly/SaltPlayerSource) 的 [SPL 歌词格式](https://moriafly.com/standards/spl.html) 设计。  
+  
+## ✨ 特性  
+  
+- **逐字同步**：精确到单个字/词的时间轴标记  
+- **多格式支持**：支持导入 LRC、纯文本和 SPL 格式歌词  
+- **智能分词**：自动识别中英文混排，智能分词处理  
+- **键盘快捷键**：全面的快捷键支持，提高同步效率  
+- **实时预览**：即时可视化反馈，直观展示同步进度  
+- **深色模式**：自动适应系统深色/浅色主题设置  
+- **无服务器依赖**：完全客户端实现，无需连接到服务器  
+  
+## 🚀 快速开始  
+  
+- **[在线使用](https://spl-syncer.ryanyuan.top/)**：无需安装，直接在浏览器中使用  
+- **[GitHub 仓库](https://github.com/Tseshongfeeshur/SPL-syncer/)**：获取源代码或提交问题  
+- **[Telegram 群组](https://t.me/+J-duJdQv1GAzYjE1)**：加入社区讨论  
+  
+> **注意**：本工具目前仅保证在 Chrome 最新版本中正常运行。  
+  
+## 📖 使用指南  
+  
+1. 打开[网页应用](https://spl-syncer.ryanyuan.top/)
+2. 点击右上角"+"按钮，选择"加载音频"导入音乐文件
+3. 再次点击"+"按钮，选择"加载歌词"或"编辑歌词"导入/创建歌词
+4. 播放音频，在歌手演唱每个字/词的开始时刻点击"标记"按钮（行末额外点击一次）
+5. 完成后点击"复制"按钮获取 SPL 格式歌词
 
-![Icon](./favicon.png)
+详细教程请点击应用中右上角的"?"按钮查看交互式向导。
 
-为 [Salt Player](https://github.com/Moriafly/SaltPlayerSource) 的标准歌词格式 [SPL](https://moriafly.com/standards/spl.html) 提供一个便捷的、高效的**逐字时间轴**编辑方式。仅保证**在 Chrome 最新版本**可以正常运行。
+### ⌨️ 快捷键
 
----
+| 左手快捷键 | 功能 | 右手快捷键 | 功能 |
+|---------|------|---------|------|
+| S | 步退 2 秒 | I | 跳转到上一行 |
+| D | 播放/暂停 | J | 跳转到上一词 |
+| F | 步进 2 秒 | K | 标记时间点 |
+|   |        | L | 跳转到下一词 |
+|   |        | M | 跳转到下一行 |
 
-## 使用向导
+## 🔧 开发计划
 
-使用[网页](https://spl-syncer.ryanyuan.top/)中**右上角“?”按钮**以获取向导。
+- [ ] 解决乱分词时再导入不按原分词的问题
+- [ ] 添加歌词预览播放功能
 
----
-
-## 快速开始
-
-- [在线使用](https://spl-syncer.ryanyuan.top/)
-- [GitHub 仓库](https://github.com/Tseshongfeeshur/SPL-syncer/)
-- [Telegram 群组](https://t.me/+J-duJdQv1GAzYjE1)
-
----
-
-## Todo
-
-- 解决乱分词时再导入不按原分词的问题。
-
----
-
-## License
+## 📄 许可证
 
 本项目采用 [GNU General Public License v3.0](./LICENSE) 开源发布。
