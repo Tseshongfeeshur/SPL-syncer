@@ -45,7 +45,6 @@ For detailed instructions, click the "?" button in the top-right corner of the a
 ## 🔧 Development Roadmap
 
 - [ ] Fix word segmentation issues when reimporting lyrics
-- [ ] Add support for more browsers
 - [ ] Add lyrics preview playback feature
 
 ## 📄 License
