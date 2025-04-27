@@ -27,7 +27,7 @@ A convenient and efficient tool for creating **word-by-word timestamps** for lyr
 1. Open the [web application](https://spl-syncer.ryanyuan.top/)
 2. Click the "+" button in the top-right corner and select "Load Audio" to import your music file
 3. Click the "+" button again and select "Load Lyrics" or "Edit Lyrics" to import or create lyrics
-4. Play the audio and click the "Tag" button at the exact moment each word begins
+4. Play the audio and click the "Tag" button at the exact moment each word begins (Require an extra click at the end of each line)
 5. When finished, click the "Copy" button to get the synchronized SPL format lyrics
 
 For detailed instructions, click the "?" button in the top-right corner of the application to access the interactive tutorial.
