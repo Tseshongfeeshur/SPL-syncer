@@ -44,8 +44,10 @@ For detailed instructions, click the "?" button in the top-right corner of the a
 
 ## 🔧 Development Roadmap
 
+- [ ] Use an anothor UI lib and rewrite
 - [ ] Fix word segmentation issues when reimporting lyrics
 - [ ] Add lyrics preview playback feature
+- [ ] Add per-syllable timing for Japanese kana
 
 ## 📄 License
 
